@@ -6,7 +6,6 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
 import java.sql.*;
-import java.util.Properties;
 
 public class Util {
 
@@ -22,18 +21,9 @@ public class Util {
     private static SessionFactory buildSessionFactory() {
         Configuration configuration = null;
         StandardServiceRegistryBuilder builder = null;
-        Properties props = new Properties();
-
-        props.setProperty("hibernate.connection.driver_class", "com.mysql.cj.jdbc.Driver");
-        props.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/mybase");
-        props.setProperty("hibernate.connection.username", "root");
-        props.setProperty("hibernate.connection.password", "root");
-        props.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
-        props.setProperty("hibernate.show_sql", "true");
-
         try {
-            configuration = new Configuration().addProperties(props);
-            configuration.addAnnotatedClass(User.class);
+            configuration = new Configuration().configure(); //читает hibernate.cfg.xml
+            configuration.addAnnotatedClass(User.class);// читает метаданные из аннотаций в этом классе
             builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
             //return new Configuration().configure().buildSessionFactory();
 
